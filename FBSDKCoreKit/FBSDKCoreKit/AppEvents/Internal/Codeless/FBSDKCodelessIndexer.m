@@ -104,7 +104,11 @@ static NSString *_lastTreeHash;
           [_codelessSetting setObject:@(isCodelessSetupEnabled) forKey:CODELESS_SETUP_ENABLED_KEY];
           [_codelessSetting setObject:[NSDate date] forKey:CODELESS_SETTING_TIMESTAMP_KEY];
           // update the cached copy in user defaults
-          [defaults setObject:[NSKeyedArchiver archivedDataWithRootObject:_codelessSetting] forKey:defaultKey];
+          
+          NSError* localError;
+          
+          [defaults setObject:[NSKeyedArchiver archivedDataWithRootObject:_codelessSetting requiringSecureCoding:NO error:&localError] forKey:defaultKey];
+          
           completionBlock(isCodelessSetupEnabled, codelessLoadingError);
         }
       }];

@@ -43,7 +43,10 @@
 - (void)testCoding
 {
   FBSDKAppInviteContent *content = [[self class] _content];
-  NSData *data = [NSKeyedArchiver archivedDataWithRootObject:content];
+  
+  
+  NSError* localError;
+  NSData *data =   [NSKeyedArchiver archivedDataWithRootObject:content requiringSecureCoding:NO error:&localError];
   NSKeyedUnarchiver *unarchiver = [[NSKeyedUnarchiver alloc] initForReadingWithData:data];
   [unarchiver setRequiresSecureCoding:YES];
   FBSDKAppInviteContent *unarchivedObject = [unarchiver decodeObjectOfClass:[FBSDKAppInviteContent class]

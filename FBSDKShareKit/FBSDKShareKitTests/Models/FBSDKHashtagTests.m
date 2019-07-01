@@ -54,7 +54,9 @@
 - (void)testCoding
 {
   FBSDKHashtag *hashtag = [FBSDKHashtag hashtagWithString:@"#Encoded"];
-  NSData *data = [NSKeyedArchiver archivedDataWithRootObject:hashtag];
+  
+  NSError* localError;
+  NSData *data =  [NSKeyedArchiver archivedDataWithRootObject:hashtag  requiringSecureCoding:NO error:&localError];
   FBSDKHashtag *unarchivedHashtag = [NSKeyedUnarchiver unarchiveObjectWithData:data];
   XCTAssertEqualObjects(hashtag, unarchivedHashtag);
 }

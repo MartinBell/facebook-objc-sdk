@@ -105,7 +105,11 @@ static id<FBSDKAppLinkResolving> defaultResolver;
 }
 
 - (FBSDKAppLinkNavigationType)navigate:(NSError **)error {
-    NSURL *openedURL = nil;
+
+  #if !TARGET_OS_UIKITFORMAC
+  
+  
+  NSURL *openedURL = nil;
     NSError *encodingError = nil;
     FBSDKAppLinkNavigationType retType = FBSDKAppLinkNavigationTypeFailure;
 
@@ -142,6 +146,13 @@ static id<FBSDKAppLinkResolving> defaultResolver;
                                                       error:error ? *error : nil
                                                        type:retType];
     return retType;
+  
+  
+#endif
+  
+  
+  return 0;
+  
 }
 
 - (void)postAppLinkNavigateEventNotificationWithTargetURL:(NSURL *)outputURL error:(NSError *)error type:(FBSDKAppLinkNavigationType)type {

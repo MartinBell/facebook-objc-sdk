@@ -76,7 +76,10 @@ static NSString *const kFBSDKAccessTokenEncodedKey = @"tokenEncoded";
     [defaults setObject:uuid forKey:kFBSDKAccessTokenUserDefaultsKey];
     [defaults synchronize];
   }
-  NSData *tokenData = [NSKeyedArchiver archivedDataWithRootObject:token];
+  
+  
+  NSError* localError;
+  NSData *tokenData =  [NSKeyedArchiver archivedDataWithRootObject:token requiringSecureCoding:NO error:&localError];
   NSDictionary<NSString *, id> *dict = @{
                                          kFBSDKAccessTokenUUIDKey : uuid,
                                          kFBSDKAccessTokenEncodedKey : tokenData

@@ -38,7 +38,9 @@
                                                                NSError *error) {
     XCTAssertNotNil(serverConfiguration);
     XCTAssertNil(error, @"unexpected error: %@", error);
-    NSData *data = [NSKeyedArchiver archivedDataWithRootObject:serverConfiguration];
+    
+    NSError* localError;
+    NSData *data =  [NSKeyedArchiver archivedDataWithRootObject:serverConfiguration requiringSecureCoding:NO error:&localError];
     FBSDKServerConfiguration *restoredConfiguration = [NSKeyedUnarchiver unarchiveObjectWithData:data];
     FBSDKErrorRecoveryConfiguration *recoveryConfiguration = [restoredConfiguration.errorConfiguration recoveryConfigurationForCode:@"190" subcode:@"459" request:nil];
     XCTAssertEqual(FBSDKGraphRequestErrorRecoverable, recoveryConfiguration.errorCategory);

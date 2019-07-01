@@ -52,7 +52,9 @@
 - (void)testCoding
 {
   FBSDKShareVideoContent *content = [FBSDKShareModelTestUtility videoContentWithoutPreviewPhoto];
-  NSData *data = [NSKeyedArchiver archivedDataWithRootObject:content];
+
+  NSError* localError;
+  NSData *data =  [NSKeyedArchiver archivedDataWithRootObject:content requiringSecureCoding:NO error:&localError];
   NSKeyedUnarchiver *unarchiver = [[NSKeyedUnarchiver alloc] initForReadingWithData:data];
   [unarchiver setRequiresSecureCoding:YES];
   FBSDKShareVideoContent *unarchivedObject = [unarchiver decodeObjectOfClass:[FBSDKShareVideoContent class]

@@ -38,9 +38,14 @@ static NSString *const kCachedResponseUserInfoKeyTimestamp = @"timestamp";
 - (instancetype)init
 {
   if ((self = [super init])) {
+    
+#if TARGET_OS_UIKITFORMAC
+    _urlCache =[NSURLCache sharedURLCache];
+#else
     _urlCache = [[NSURLCache alloc] initWithMemoryCapacity:1024*1024*8
                                               diskCapacity:1024*1024*100
-                                                  diskPath:kImageDirectory];
+                                              diskPath:kImageDirectory];
+#endif
   }
   return self;
 }

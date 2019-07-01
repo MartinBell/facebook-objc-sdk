@@ -51,7 +51,11 @@
 - (void)testCoding
 {
   FBSDKGameRequestContent *content = [[self class] _contentWithAllProperties];
-  NSData *data = [NSKeyedArchiver archivedDataWithRootObject:content];
+  
+  
+  
+  NSError* localError;
+  NSData *data =  [NSKeyedArchiver archivedDataWithRootObject:content requiringSecureCoding:NO error:&localError];
   NSKeyedUnarchiver *unarchiver = [[NSKeyedUnarchiver alloc] initForReadingWithData:data];
   [unarchiver setRequiresSecureCoding:YES];
   FBSDKGameRequestContent *unarchivedObject = [unarchiver decodeObjectOfClass:[FBSDKGameRequestContent class]

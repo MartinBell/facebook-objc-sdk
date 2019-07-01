@@ -43,7 +43,9 @@
 
 - (BOOL)setDictionary:(NSDictionary *)value forKey:(NSString *)key accessibility:(CFTypeRef)accessibility
 {
-  NSData *data = value == nil ? nil : [NSKeyedArchiver archivedDataWithRootObject:value];
+  
+  NSError* localError;
+  NSData *data = value == nil ? nil : [NSKeyedArchiver archivedDataWithRootObject:value requiringSecureCoding:NO error:&localError];
   return [self setData:data forKey:key accessibility:accessibility];
 }
 
@@ -54,7 +56,9 @@
     return nil;
   }
 
-  NSDictionary *dict = [NSKeyedUnarchiver unarchiveObjectWithData:data];
+  NSError* localError;
+  
+  NSDictionary *dict = [NSKeyedUnarchiver unarchivedObjectOfClass:NSDictionary.class fromData:data error:&error];
   if (![dict isKindOfClass:[NSDictionary class]]) {
     return nil;
   }

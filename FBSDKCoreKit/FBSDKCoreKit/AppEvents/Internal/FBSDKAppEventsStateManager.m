@@ -51,7 +51,12 @@ static BOOL g_canSkipDiskCheck = NO;
   NSMutableArray *existingEvents = [NSMutableArray arrayWithArray:[[self class] retrievePersistedAppEventsStates]];
   [existingEvents addObject:appEventsState];
 
-  [NSKeyedArchiver archiveRootObject:existingEvents toFile:[[self class] filePath]];
+  NSError* localError;
+  
+  NSData* data=[NSKeyedArchiver archivedDataWithRootObject:existingEvents requiringSecureCoding:NO error:&localError];
+  
+  [data witeToFile:[[self class] filePath];
+
   g_canSkipDiskCheck = NO;
 }
 

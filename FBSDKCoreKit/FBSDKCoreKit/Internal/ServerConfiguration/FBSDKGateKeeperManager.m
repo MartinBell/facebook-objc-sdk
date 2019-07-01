@@ -154,7 +154,8 @@ static BOOL _requeryFinishedForAppStart;
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     NSString *defaultKey = [NSString stringWithFormat:FBSDK_GATEKEEPER_USER_DEFAULTS_KEY,
                             appID];
-    NSData *data = [NSKeyedArchiver archivedDataWithRootObject:gateKeeper];
+    NSError* localError;
+    NSData *data =  [NSKeyedArchiver archivedDataWithRootObject:gateKeeper requiringSecureCoding:NO error:&localError];
     [defaults setObject:data forKey:defaultKey];
   }
 }

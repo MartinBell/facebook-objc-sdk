@@ -262,6 +262,8 @@ static FBSDKWebDialog *g_currentDialog = nil;
 {
   // iOS 8 simply adjusts the application frame to adapt to the current orientation and deprecated the concept of
   // interface orientations
+  
+#if !TARGET_OS_UIKITFORMAC
   if ([FBSDKInternalUtility shouldManuallyAdjustOrientation]) {
     switch ([UIApplication sharedApplication].statusBarOrientation) {
       case UIInterfaceOrientationLandscapeLeft:
@@ -276,6 +278,9 @@ static FBSDKWebDialog *g_currentDialog = nil;
         break;
     }
   }
+  
+#endif
+  
   return CGAffineTransformIdentity;
 }
 
@@ -290,14 +295,23 @@ static FBSDKWebDialog *g_currentDialog = nil;
   }
 #endif
 
+  UIWindow *keyWindow = [[[UIApplication sharedApplication] delegate] window];
+
+
+  UIWindowScene* scene=[keyWindow windowScene];
+  UIStatusBarManager* sbManager=[scene statusBarManager];
+  
   if (insets.top == 0.0) {
-    insets.top = [[UIApplication sharedApplication] statusBarFrame].size.height;
+    insets.top = [[UIApplication sharedApplication] sbManager.statusBarFrame].size.height;
   }
   applicationFrame.origin.x += insets.left;
   applicationFrame.origin.y += insets.top;
   applicationFrame.size.width -= insets.left + insets.right;
   applicationFrame.size.height -= insets.top + insets.bottom;
 
+  
+  #if !TARGET_OS_UIKITFORMAC
+  
   if ([FBSDKInternalUtility shouldManuallyAdjustOrientation]) {
     switch ([UIApplication sharedApplication].statusBarOrientation) {
       case UIInterfaceOrientationLandscapeLeft:
@@ -311,6 +325,11 @@ static FBSDKWebDialog *g_currentDialog = nil;
   } else {
     return applicationFrame;
   }
+  
+#else
+   return applicationFrame;
+#endif
+  
 }
 
 - (void)_updateViewsWithScale:(CGFloat)scale

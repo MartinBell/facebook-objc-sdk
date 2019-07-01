@@ -58,7 +58,9 @@
 - (void)testCoding
 {
   FBSDKShareOpenGraphObject *object = [FBSDKShareModelTestUtility openGraphObject];
-  NSData *data = [NSKeyedArchiver archivedDataWithRootObject:object];
+  NSError* localError;
+  NSData *data =   [NSKeyedArchiver archivedDataWithRootObject:object requiringSecureCoding:NO error:&localError];
+  
   NSKeyedUnarchiver *unarchiver = [[NSKeyedUnarchiver alloc] initForReadingWithData:data];
   [unarchiver setRequiresSecureCoding:YES];
   FBSDKShareOpenGraphObject *unarchivedObject = [unarchiver decodeObjectOfClass:[FBSDKShareOpenGraphObject class]

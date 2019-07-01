@@ -39,7 +39,10 @@
 - (void)testCoding
 {
   FBSDKCameraEffectArguments *arguments = [FBSDKShareModelTestUtility cameraEffectArguments];
-  NSData *data = [NSKeyedArchiver archivedDataWithRootObject:arguments];
+  
+ 
+  NSError* localError;
+  NSData *data =  [NSKeyedArchiver archivedDataWithRootObject:arguments requiringSecureCoding:NO error:&localError];
   FBSDKCameraEffectArguments *unarchivedArguments = [NSKeyedUnarchiver unarchiveObjectWithData:data];
   XCTAssertEqualObjects(unarchivedArguments, arguments);
 }

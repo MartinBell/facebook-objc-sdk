@@ -130,7 +130,10 @@
 
     NSDictionary *value = @{@"key1": @"Test", @1: @YES, @"key2": @1.0f};
     [[mock expect] setData:[OCMArg checkWithBlock:^BOOL(NSData * obj) {
-        NSData *actual = [NSKeyedArchiver archivedDataWithRootObject:value];
+      
+      
+        NSError* localError;
+        NSData *actual =  [NSKeyedArchiver archivedDataWithRootObject:value requiringSecureCoding:NO error:&localError];
         return [obj isEqualToData:actual];
     }] forKey:@"key" accessibility:Nil];
 

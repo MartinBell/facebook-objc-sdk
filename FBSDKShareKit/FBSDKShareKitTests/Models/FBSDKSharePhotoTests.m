@@ -77,7 +77,8 @@
 - (void)testCoding
 {
   FBSDKSharePhoto *photo = [FBSDKShareModelTestUtility photoWithImageURL];
-  NSData *data = [NSKeyedArchiver archivedDataWithRootObject:photo];
+  NSError* localError;
+  NSData *data = [NSKeyedArchiver archivedDataWithRootObject:photo requiringSecureCoding:NO error:&localError];
   FBSDKSharePhoto *unarchivedPhoto = [NSKeyedUnarchiver unarchiveObjectWithData:data];
   XCTAssertEqualObjects(unarchivedPhoto, photo);
 }

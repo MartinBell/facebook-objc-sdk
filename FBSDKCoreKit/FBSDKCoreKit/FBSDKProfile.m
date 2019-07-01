@@ -264,7 +264,11 @@ static FBSDKProfile *g_currentProfile;
 {
   NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
   if (profile) {
-    NSData *data = [NSKeyedArchiver archivedDataWithRootObject:profile];
+    
+    NSError* localError;
+    
+    NSData *data = [NSKeyedArchiver archivedDataWithRootObject:profile requiringSecureCoding:NO error:&localError];
+    
     [userDefaults setObject:data forKey:FBSDKProfileUserDefaultsKey];
   } else {
     [userDefaults removeObjectForKey:FBSDKProfileUserDefaultsKey];

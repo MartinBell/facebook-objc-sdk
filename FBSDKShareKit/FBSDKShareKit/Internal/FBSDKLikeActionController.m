@@ -173,7 +173,9 @@ static FBSDKLikeActionControllerCache *_cache = nil;
   if (!fileURL) {
     return;
   }
-  NSData *data = [NSKeyedArchiver archivedDataWithRootObject:_cache];
+
+  NSError* localError;
+  NSData *data =   [NSKeyedArchiver archivedDataWithRootObject:archivedDataWithRootObject requiringSecureCoding:NO error:&localError];
   if (data) {
     [data writeToURL:fileURL atomically:YES];
   } else {

@@ -42,6 +42,9 @@ static const CFTimeInterval kFBSDKViewAnimationDuration = 0.25f;
 
         if (_navigationController != nil) {
             NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
+          
+#if !TARGET_OS_UIKITFORMAC
+          
             [nc addObserver:self
                    selector:@selector(statusBarFrameWillChange:)
                        name:UIApplicationWillChangeStatusBarFrameNotification
@@ -50,6 +53,11 @@ static const CFTimeInterval kFBSDKViewAnimationDuration = 0.25f;
                    selector:@selector(statusBarFrameDidChange:)
                        name:UIApplicationDidChangeStatusBarFrameNotification
                      object:nil];
+          
+          
+#endif
+          
+          
             [nc addObserver:self
                    selector:@selector(orientationDidChange:)
                        name:UIDeviceOrientationDidChangeNotification
@@ -130,6 +138,9 @@ static const CFTimeInterval kFBSDKViewAnimationDuration = 0.25f;
 #pragma mark - Private
 
 - (void)statusBarFrameWillChange:(NSNotification *)notification {
+  #if !TARGET_OS_UIKITFORMAC
+  
+  
     NSValue *rectValue = [notification.userInfo valueForKey:UIApplicationStatusBarFrameUserInfoKey];
     CGRect newFrame;
     [rectValue getValue:&newFrame];
@@ -142,9 +153,12 @@ static const CFTimeInterval kFBSDKViewAnimationDuration = 0.25f;
             } completion:nil];
         }
     }
+  
+#endif
 }
 
 - (void)statusBarFrameDidChange:(NSNotification *)notification {
+  #if !TARGET_OS_UIKITFORMAC
     NSValue *rectValue = [notification.userInfo valueForKey:UIApplicationStatusBarFrameUserInfoKey];
     CGRect newFrame;
     [rectValue getValue:&newFrame];
@@ -158,6 +172,8 @@ static const CFTimeInterval kFBSDKViewAnimationDuration = 0.25f;
             } completion:nil];
         }
     }
+  
+  #endif
 }
 
 - (void)orientationDidChange:(NSNotificationCenter *)notification {

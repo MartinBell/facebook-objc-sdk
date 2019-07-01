@@ -32,13 +32,21 @@
 {
   UIButton *_closeButton;
   UIActivityIndicatorView *_loadingView;
-  UIWebView *_webView;
+  
+  #if !TARGET_OS_UIKITFORMAC
+  
+    UIWebView *_webView;
+
+  #endif
+
 }
 
 #pragma mark - Object Lifecycle
 
 - (instancetype)initWithFrame:(CGRect)frame
 {
+   #if !TARGET_OS_UIKITFORMAC
+  
   if ((self = [super initWithFrame:frame])) {
     self.backgroundColor = [UIColor clearColor];
     self.opaque = NO;
@@ -64,6 +72,8 @@
     _loadingView.color = [UIColor grayColor];
     [_webView addSubview:_loadingView];
   }
+  
+#endif
   return self;
 }
 
@@ -76,19 +86,29 @@
 
 - (void)loadURL:(NSURL *)URL
 {
+  #if !TARGET_OS_UIKITFORMAC
+  
   [_loadingView startAnimating];
   [_webView loadRequest:[NSURLRequest requestWithURL:URL]];
+
+#endif
 }
 
 - (void)stopLoading
 {
-  [_webView stopLoading];
+   #if !TARGET_OS_UIKITFORMAC
+    [_webView stopLoading];
+#endif
 }
 
 #pragma mark - Layout
 
 - (void)drawRect:(CGRect)rect
 {
+   #if !TARGET_OS_UIKITFORMAC
+  
+  
+  
   CGContextRef context = UIGraphicsGetCurrentContext();
   CGContextSaveGState(context);
   [self.backgroundColor setFill];
@@ -98,6 +118,8 @@
   CGContextStrokeRect(context, _webView.frame);
   CGContextRestoreGState(context);
   [super drawRect:rect];
+  
+#endif
 }
 
 - (void)layoutSubviews
@@ -138,6 +160,8 @@
 }
 
 #pragma mark - UIWebViewDelegate
+
+#if !TARGET_OS_UIKITFORMAC
 
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error
 {
@@ -189,5 +213,8 @@ shouldStartLoadWithRequest:(NSURLRequest *)request
   [_loadingView stopAnimating];
   [_delegate webDialogViewDidFinishLoad:self];
 }
+
+
+#endif
 
 @end

@@ -20,6 +20,14 @@
 
 #import <UIKit/UIKit.h>
 
+#if !TARGET_OS_UIKITFORMAC
+
+#define UIWebView Undefined
+
+#endif
+
+#define UIWebView Undefined
+
 #import "FBSDKAppLink.h"
 #import "FBSDKAppLinkTarget.h"
 
@@ -64,13 +72,19 @@ static NSString *const FBSDKWebViewAppLinkResolverShouldFallbackKey = @"should_f
 
 @interface FBSDKWebViewAppLinkResolverWebViewDelegate : NSObject <UIWebViewDelegate>
 
+#if !TARGET_OS_UIKITFORMAC
 @property (nonatomic, copy) void (^didFinishLoad)(UIWebView *webView);
 @property (nonatomic, copy) void (^didFailLoadWithError)(UIWebView *webView, NSError *error);
+#endif
+
+
 @property (nonatomic, assign) BOOL hasLoaded;
 
 @end
 
 @implementation FBSDKWebViewAppLinkResolverWebViewDelegate
+
+#if !TARGET_OS_UIKITFORMAC
 
 - (void)webViewDidFinishLoad:(UIWebView *)webView {
     if (self.didFinishLoad) {
@@ -97,7 +111,7 @@ static NSString *const FBSDKWebViewAppLinkResolverShouldFallbackKey = @"should_f
     self.hasLoaded = YES;
     return YES;
 }
-
+#endif
 @end
 
 @implementation FBSDKWebViewAppLinkResolver
@@ -148,6 +162,9 @@ static NSString *const FBSDKWebViewAppLinkResolverShouldFallbackKey = @"should_f
 
 - (void)appLinkFromURL:(NSURL *)url handler:(FBSDKAppLinkBlock)handler
 {
+  #if !TARGET_OS_UIKITFORMAC
+  
+  
   dispatch_async(dispatch_get_main_queue(), ^{
     [self followRedirects:url handler:^(NSDictionary<NSString *,id> *result, NSError * _Nullable error) {
 
@@ -189,6 +206,8 @@ static NSString *const FBSDKWebViewAppLinkResolverShouldFallbackKey = @"should_f
       [window addSubview:webView];
     }];
   });
+  
+  #endif
 }
 
 /*
@@ -228,6 +247,8 @@ static NSString *const FBSDKWebViewAppLinkResolverShouldFallbackKey = @"should_f
     return al;
 }
 
+#if !TARGET_OS_UIKITFORMAC
+
 - (NSDictionary<NSString *, id> *)getALDataFromLoadedPage:(UIWebView *)webView {
     // Run some JavaScript in the webview to fetch the meta tags.
     NSString *jsonString = [webView stringByEvaluatingJavaScriptFromString:FBSDKWebViewAppLinkResolverTagExtractionJavaScript];
@@ -238,15 +259,21 @@ static NSString *const FBSDKWebViewAppLinkResolverShouldFallbackKey = @"should_f
                                         error:&error];
     return [self parseALData:arr];
 }
-
+#endif
 /*
  Converts app link data into a FBSDKAppLink containing the targets relevant for this platform.
  */
 - (FBSDKAppLink *)appLinkFromALData:(NSDictionary<NSString *, id> *)appLinkDict destination:(NSURL *)destination {
+ 
+    #if !TARGET_OS_UIKITFORMAC
+  
     NSMutableArray<FBSDKAppLinkTarget *> *linkTargets = [NSMutableArray array];
 
     NSArray *platformData = nil;
 
+
+  
+  
     const UIUserInterfaceIdiom idiom = UI_USER_INTERFACE_IDIOM();
     if (idiom == UIUserInterfaceIdiomPad) {
         platformData = @[ appLinkDict[FBSDKWebViewAppLinkResolverIPadKey] ?: @{},
@@ -300,6 +327,13 @@ static NSString *const FBSDKWebViewAppLinkResolverShouldFallbackKey = @"should_f
     return [FBSDKAppLink appLinkWithSourceURL:destination
                                       targets:linkTargets
                                        webURL:webUrl];
+#else
+  
+  return nil;
+  
+  #endif
+  
+  
 }
 
 @end

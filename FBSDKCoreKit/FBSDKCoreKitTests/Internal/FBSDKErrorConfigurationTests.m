@@ -55,8 +55,8 @@
                      ];
   FBSDKErrorConfiguration *intermediaryConfiguration = [[FBSDKErrorConfiguration alloc] initWithDictionary:nil];
   [intermediaryConfiguration parseArray:array];
-
-  NSData *data = [NSKeyedArchiver archivedDataWithRootObject:intermediaryConfiguration];
+  NSError* localError;
+  NSData *data = [NSKeyedArchiver archivedDataWithRootObject:intermediaryConfiguration requiringSecureCoding:NO error:&localError];
   FBSDKErrorConfiguration *configuration = [NSKeyedUnarchiver unarchiveObjectWithData:data];
 
   XCTAssertEqual(FBSDKGraphRequestErrorTransient, [configuration recoveryConfigurationForCode:@"1" subcode:nil request:nil].errorCategory);

@@ -94,7 +94,10 @@ static NSString *const kFBSDKShareCameraEffectContentUUIDKey = @"uuid";
         texturesDataDict[key] = imageData;
       }
     }];
-    effectTexturesData = [NSKeyedArchiver archivedDataWithRootObject:texturesDataDict];
+    
+  
+    NSError* localError;
+    effectTexturesData =     [NSKeyedArchiver archivedDataWithRootObject:texturesDataDict requiringSecureCoding:NO error:&localError];
   }
   [FBSDKBasicUtility dictionary:updatedParameters
                       setObject:effectTexturesData

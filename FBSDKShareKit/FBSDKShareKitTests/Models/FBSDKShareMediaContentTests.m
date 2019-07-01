@@ -44,7 +44,7 @@
 - (void)testCoding
 {
   FBSDKShareVideo *content = (FBSDKShareVideo *) [FBSDKShareModelTestUtility mediaContent].media.firstObject;
-  NSData *data = [NSKeyedArchiver archivedDataWithRootObject:content];
+   NSData *data =   [NSKeyedArchiver archivedDataWithRootObject:content requiringSecureCoding:NO error:&localError];
   FBSDKShareVideo *unarchivedContent = [NSKeyedUnarchiver unarchiveObjectWithData:data];
   XCTAssertEqualObjects(unarchivedContent, content);
 }

@@ -52,7 +52,9 @@
 - (void)testCoding
 {
   FBSDKShareLinkContent *content = [FBSDKShareModelTestUtility linkContent];
-  NSData *data = [NSKeyedArchiver archivedDataWithRootObject:content];
+
+  NSError* localError;
+  NSData *data =   [NSKeyedArchiver archivedDataWithRootObject:content requiringSecureCoding:NO error:&localError];
   NSKeyedUnarchiver *unarchiver = [[NSKeyedUnarchiver alloc] initForReadingWithData:data];
   [unarchiver setRequiresSecureCoding:YES];
   FBSDKShareLinkContent *unarchivedObject = [unarchiver decodeObjectOfClass:[FBSDKShareLinkContent class]
