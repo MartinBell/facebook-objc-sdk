@@ -56,7 +56,7 @@
     return nil;
   }
 
-  NSError* localError;
+  NSError* error;
   
   NSDictionary *dict = [NSKeyedUnarchiver unarchivedObjectOfClass:NSDictionary.class fromData:data error:&error];
   if (![dict isKindOfClass:[NSDictionary class]]) {

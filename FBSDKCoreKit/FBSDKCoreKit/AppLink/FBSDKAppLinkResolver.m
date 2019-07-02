@@ -168,7 +168,7 @@ static NSString *const kAppLinksKey = @"app_links";
 
 + (instancetype)resolver
 {
-  return [[self alloc] initWithUserInterfaceIdiom:UI_USER_INTERFACE_IDIOM()];
+  return [[self alloc] initWithUserInterfaceIdiom:[UIDevice currentDevice].userInterfaceIdiom];
 }
 
 @end

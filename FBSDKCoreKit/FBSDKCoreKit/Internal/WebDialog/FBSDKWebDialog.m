@@ -296,13 +296,11 @@ static FBSDKWebDialog *g_currentDialog = nil;
 #endif
 
   UIWindow *keyWindow = [[[UIApplication sharedApplication] delegate] window];
-
-
   UIWindowScene* scene=[keyWindow windowScene];
   UIStatusBarManager* sbManager=[scene statusBarManager];
   
   if (insets.top == 0.0) {
-    insets.top = [[UIApplication sharedApplication] sbManager.statusBarFrame].size.height;
+    insets.top = sbManager.statusBarFrame.size.height;
   }
   applicationFrame.origin.x += insets.left;
   applicationFrame.origin.y += insets.top;

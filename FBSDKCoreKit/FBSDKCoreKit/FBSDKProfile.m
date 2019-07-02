@@ -282,7 +282,10 @@ static FBSDKProfile *g_currentProfile;
   NSData *data = [userDefaults objectForKey:FBSDKProfileUserDefaultsKey];
   if (data != nil) {
     @try {
-      return [NSKeyedUnarchiver unarchiveObjectWithData:data];
+      
+      NSError* error;
+      
+      return  [NSKeyedUnarchiver unarchivedObjectOfClass:FBSDKProfile.class fromData:data error:&error];
     } @catch (NSException *exception) {
       return nil;
     }

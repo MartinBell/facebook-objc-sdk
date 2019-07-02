@@ -51,12 +51,12 @@ static BOOL g_canSkipDiskCheck = NO;
   NSMutableArray *existingEvents = [NSMutableArray arrayWithArray:[[self class] retrievePersistedAppEventsStates]];
   [existingEvents addObject:appEventsState];
 
-  NSError* localError;
+  NSError* error;
   
-  NSData* data=[NSKeyedArchiver archivedDataWithRootObject:existingEvents requiringSecureCoding:NO error:&localError];
+  NSData* data=[NSKeyedArchiver archivedDataWithRootObject:existingEvents requiringSecureCoding:NO error:&error];
   
-  [data witeToFile:[[self class] filePath];
-
+  [data writeToFile:[[self class] filePath] options:0 error:&error];
+  
   g_canSkipDiskCheck = NO;
 }
 
@@ -64,7 +64,14 @@ static BOOL g_canSkipDiskCheck = NO;
 {
   NSMutableArray *eventsStates = [NSMutableArray array];
   if (!g_canSkipDiskCheck) {
-    [eventsStates addObjectsFromArray:[NSKeyedUnarchiver unarchiveObjectWithFile:[[self class] filePath]]];
+    
+    NSData* data=[NSData dataWithContentsOfFile:[[self class] filePath]];
+    
+    NSError* error;
+    
+    NSArray* objects = [NSKeyedUnarchiver unarchivedObjectOfClass:[NSArray class] fromData:data error:&error];
+    
+    [eventsStates addObjectsFromArray:objects];
 
     [FBSDKLogger singleShotLogEntry:FBSDKLoggingBehaviorAppEvents
                        formatString:@"FBSDKAppEvents Persist: Read %lu event states. First state has %lu events",

@@ -96,6 +96,8 @@ static NSString *const kFBSDKShareCameraEffectContentUUIDKey = @"uuid";
     }];
     
   
+
+  
     NSError* localError;
     effectTexturesData =     [NSKeyedArchiver archivedDataWithRootObject:texturesDataDict requiringSecureCoding:NO error:&localError];
   }

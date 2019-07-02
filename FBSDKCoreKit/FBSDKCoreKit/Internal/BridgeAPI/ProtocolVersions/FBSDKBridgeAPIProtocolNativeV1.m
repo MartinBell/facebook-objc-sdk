@@ -305,8 +305,7 @@ static const struct
         // the Facebook app will not clear the value with this version of the protocol, so we should do it when the app
         // becomes active again
         NSString *pasteboardName = self->_pasteboard.name;
-        if ([pasteboardName isEqualToString:UIPasteboardNameGeneral] ||
-            [pasteboardName isEqualToString:UIPasteboardNameFind]) {
+        if ([pasteboardName isEqualToString:UIPasteboardNameGeneral]) {
           [[self class] clearData:data fromPasteboardOnApplicationDidBecomeActive:self->_pasteboard];
         }
       }

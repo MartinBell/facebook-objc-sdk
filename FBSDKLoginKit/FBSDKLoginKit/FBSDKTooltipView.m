@@ -472,9 +472,12 @@ static CGMutablePathRef _createCloseCrossGlyphWithRect(CGRect rect)
 
 - (CGRect)layoutSubviewsAndDetermineFrame
 {
+  UIWindow *keyWindow = [[[UIApplication sharedApplication] delegate] window];
+  UIWindowScene* scene=[keyWindow windowScene];
+  
   // Compute the positioning of the arrow.
   CGRect screenBounds = [UIScreen mainScreen].bounds;
-  UIInterfaceOrientation orientation = [UIApplication sharedApplication].statusBarOrientation;
+  UIInterfaceOrientation orientation = scene.interfaceOrientation;
   if (!UIInterfaceOrientationIsPortrait(orientation)) {
     screenBounds = CGRectMake(0, 0, screenBounds.size.height, screenBounds.size.width);
   }

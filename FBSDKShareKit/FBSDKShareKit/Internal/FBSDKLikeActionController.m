@@ -128,7 +128,10 @@ static FBSDKLikeActionControllerCache *_cache = nil;
       NSURL *fileURL = [self _cacheFileURL];
       NSData *data = [[NSData alloc] initWithContentsOfURL:fileURL];
       if (data) {
-        NSKeyedUnarchiver *unarchiver = [[NSKeyedUnarchiver alloc] initForReadingWithData:data];
+        
+        NSError* error;
+        
+        NSKeyedUnarchiver *unarchiver = [[NSKeyedUnarchiver alloc] initForReadingFromData:data error:&error];
         unarchiver.requiresSecureCoding = YES;
         @try {
           _cache = [unarchiver decodeObjectOfClass:[FBSDKLikeActionControllerCache class]
@@ -175,7 +178,7 @@ static FBSDKLikeActionControllerCache *_cache = nil;
   }
 
   NSError* localError;
-  NSData *data =   [NSKeyedArchiver archivedDataWithRootObject:archivedDataWithRootObject requiringSecureCoding:NO error:&localError];
+  NSData *data =   [NSKeyedArchiver archivedDataWithRootObject:_cache requiringSecureCoding:NO error:&localError];
   if (data) {
     [data writeToURL:fileURL atomically:YES];
   } else {

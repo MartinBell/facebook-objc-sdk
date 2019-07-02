@@ -72,6 +72,9 @@
     _loadingView.color = [UIColor grayColor];
     [_webView addSubview:_loadingView];
   }
+#else
+  self = [super initWithFrame:frame];
+  
   
 #endif
   return self;
@@ -79,7 +82,9 @@
 
 - (void)dealloc
 {
+  #if !TARGET_OS_UIKITFORMAC
   _webView.delegate = nil;
+#endif
 }
 
 #pragma mark - Public Methods
@@ -124,6 +129,8 @@
 
 - (void)layoutSubviews
 {
+  #if !TARGET_OS_UIKITFORMAC
+  
   [super layoutSubviews];
 
   CGRect bounds = self.bounds;
@@ -150,6 +157,8 @@
     closeButtonFrame.origin = bounds.origin;
     _closeButton.frame = CGRectIntegral(closeButtonFrame);
   }
+  
+  #endif
 }
 
 #pragma mark - Actions

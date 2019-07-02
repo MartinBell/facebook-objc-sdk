@@ -77,7 +77,10 @@ static NSString *_lastTreeHash;
     NSString *defaultKey = [NSString stringWithFormat:CODELESS_SETTING_KEY, appID];
     NSData *data = [defaults objectForKey:defaultKey];
     if ([data isKindOfClass:[NSData class]]) {
-      NSMutableDictionary<NSString *, id> *codelessSetting = [NSKeyedUnarchiver unarchiveObjectWithData:data];
+      
+      NSError* error;
+
+      NSMutableDictionary<NSString *, id> *codelessSetting = [NSKeyedUnarchiver unarchivedObjectOfClass:[NSMutableDictionary<NSString *, id> class] fromData:data error:&error];
       if (codelessSetting) {
         _codelessSetting = codelessSetting;
       }

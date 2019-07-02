@@ -72,7 +72,10 @@ static BOOL _requeryFinishedForAppStart;
                             appID];
     NSData *data = [defaults objectForKey:defaultKey];
     if ([data isKindOfClass:[NSData class]]) {
-      NSMutableDictionary<NSString *, id> *gatekeeper = [NSKeyedUnarchiver unarchiveObjectWithData:data];
+      
+      NSError*error;
+      
+      NSMutableDictionary<NSString *, id> *gatekeeper =  [NSKeyedUnarchiver unarchivedObjectOfClass:[NSMutableDictionary<NSString *, id> class] fromData:data error:&error];
       if (gatekeeper != nil && [gatekeeper isKindOfClass:[NSMutableDictionary class]] && appID != nil) {
         _gateKeepers[appID] = gatekeeper;
       }

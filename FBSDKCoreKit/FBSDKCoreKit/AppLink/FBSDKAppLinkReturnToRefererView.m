@@ -155,9 +155,14 @@ static const CGFloat FBSDKCloseButtonHeight = 12.0;
             include = NO;
             break;
     }
-    if (include && !application.statusBarHidden) {
-        BOOL landscape = UIInterfaceOrientationIsLandscape(application.statusBarOrientation);
-        CGRect statusBarFrame = application.statusBarFrame;
+  
+  UIWindow *keyWindow = [[application delegate] window];
+  UIWindowScene* scene=[keyWindow windowScene];
+  UIStatusBarManager* sbManager=[scene statusBarManager];
+  
+    if (include && !sbManager.statusBarHidden) {
+        BOOL landscape = UIInterfaceOrientationIsLandscape(scene.interfaceOrientation);
+        CGRect statusBarFrame = sbManager.statusBarFrame;
         return landscape ? CGRectGetWidth(statusBarFrame) : CGRectGetHeight(statusBarFrame);
     }
 

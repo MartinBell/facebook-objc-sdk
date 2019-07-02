@@ -19,7 +19,9 @@
 #import "FBSDKShareAPI.h"
 
 #if !TARGET_OS_TV
+#if !TARGET_OS_UIKITFORMAC
 #import <AssetsLibrary/AssetsLibrary.h>
+#endif
 #endif
 
 #import <FBSDKCoreKit/FBSDKGraphRequest.h>
@@ -50,8 +52,11 @@ static NSMutableArray *g_pendingFBSDKShareAPI;
 @implementation FBSDKShareAPI {
   NSFileHandle *_fileHandle;
 #if !TARGET_OS_TV
+  #if !TARGET_OS_UIKITFORMAC
   ALAssetRepresentation *_assetRepresentation;
 #endif
+  #endif
+  
 }
 
 #pragma mark - Class Methods
@@ -81,6 +86,9 @@ static NSMutableArray *g_pendingFBSDKShareAPI;
 #pragma mark - Object Lifecycle
 
 #if !TARGET_OS_TV
+
+#if !TARGET_OS_UIKITFORMAC
+
 + (ALAssetsLibrary *)defaultAssetsLibrary {
   static dispatch_once_t pred = 0;
   static ALAssetsLibrary *library = nil;
@@ -89,6 +97,9 @@ static NSMutableArray *g_pendingFBSDKShareAPI;
   });
   return library;
 }
+
+#endif
+
 #endif
 
 + (void)initialize
@@ -410,6 +421,9 @@ static NSMutableArray *g_pendingFBSDKShareAPI;
 
 - (BOOL)_shareVideoContent:(FBSDKShareVideoContent *)videoContent
 {
+  #if !TARGET_OS_UIKITFORMAC
+  
+  
   NSMutableDictionary *parameters = [[NSMutableDictionary alloc] init];
   [self _addCommonParameters:parameters content:videoContent];
   [FBSDKBasicUtility dictionary:parameters setObject:self.message forKey:@"description"];
@@ -464,6 +478,13 @@ static NSMutableArray *g_pendingFBSDKShareAPI;
   } else {
     return NO;
   }
+  
+  
+#else
+   return NO;
+  
+#endif
+  
 }
 
 - (BOOL)_addEncodedParametersToDictionary:(NSMutableDictionary *)parameters
@@ -799,8 +820,10 @@ static NSMutableArray *g_pendingFBSDKShareAPI;
     [g_pendingFBSDKShareAPI removeObject:self];
     _fileHandle = nil;
 #if !TARGET_OS_TV
+    #if !TARGET_OS_UIKITFORMAC
     _assetRepresentation = nil;
 #endif
+    #endif
   }
 }
 
@@ -818,6 +841,8 @@ static NSMutableArray *g_pendingFBSDKShareAPI;
     return videoChunkData;
   }
 #if !TARGET_OS_TV
+  
+  #if !TARGET_OS_UIKITFORMAC
   else if (_assetRepresentation) {
     NSMutableData *data = [NSMutableData dataWithLength:chunkSize];
     NSError *error;
@@ -828,6 +853,7 @@ static NSMutableArray *g_pendingFBSDKShareAPI;
     return data;
   }
 #endif
+  #endif
   return nil;
 }
 

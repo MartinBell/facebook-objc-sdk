@@ -271,7 +271,13 @@ static const u_int FB_GIGABYTE = 1024 * 1024 * 1024;  // bytes
 #else
   // Dynamically load class for this so calling app doesn't need to link framework in.
   CTTelephonyNetworkInfo *networkInfo = [[fbsdkdfl_CTTelephonyNetworkInfoClass() alloc] init];
-  CTCarrier *carrier = networkInfo.subscriberCellularProvider;
+  
+  NSArray* carriers=[networkInfo.serviceSubscriberCellularProviders allValues];
+  
+  if (carriers==nil)
+    return @"NoCarrier";
+  
+  CTCarrier *carrier = carriers[0];
   return carrier.carrierName ?: @"NoCarrier";
 #endif
 }

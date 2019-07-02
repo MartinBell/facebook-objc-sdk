@@ -53,7 +53,10 @@ static NSString *const kFBSDKAccessTokenEncodedKey = @"tokenEncoded";
     if ([dict[kFBSDKAccessTokenUUIDKey] isEqualToString:uuid]) {
       id tokenData = dict[kFBSDKAccessTokenEncodedKey];
       if ([tokenData isKindOfClass:[NSData class]]) {
-        return [NSKeyedUnarchiver unarchiveObjectWithData:tokenData];
+        
+        NSError* error;
+       
+        return [NSKeyedUnarchiver unarchivedObjectOfClass:[NSMutableDictionary<NSString *, id> class] fromData:tokenData error:&error];
       }
     }
   }
