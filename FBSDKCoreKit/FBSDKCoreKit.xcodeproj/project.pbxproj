@@ -3087,6 +3087,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 81A4A6021D19BE0400D5BF66 /* FBSDKCoreKit-Dynamic.xcconfig */;
 			buildSettings = {
+				SKIP_INSTALL = NO;
 			};
 			name = Debug;
 		};
@@ -3094,6 +3095,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 81A4A6021D19BE0400D5BF66 /* FBSDKCoreKit-Dynamic.xcconfig */;
 			buildSettings = {
+				SKIP_INSTALL = NO;
 			};
 			name = Release;
 		};
@@ -3112,6 +3114,8 @@
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
 			};
 			name = Debug;
 		};
@@ -3130,6 +3134,8 @@
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
 			};
 			name = Release;
 		};
@@ -3139,6 +3145,7 @@
 			buildSettings = {
 				CLANG_WARN_STRICT_PROTOTYPES = NO;
 				"FB_BITCODE_FLAG[sdk=iphoneos11.0]" = "-fembed-bitcode";
+				SKIP_INSTALL = NO;
 			};
 			name = Debug;
 		};
@@ -3148,6 +3155,7 @@
 			buildSettings = {
 				CLANG_WARN_STRICT_PROTOTYPES = NO;
 				"FB_BITCODE_FLAG[sdk=iphoneos11.0]" = "-fembed-bitcode";
+				SKIP_INSTALL = NO;
 			};
 			name = Release;
 		};

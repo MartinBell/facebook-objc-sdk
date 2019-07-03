@@ -1155,7 +1155,10 @@ static NSString *g_overrideAppID = nil;
     // We only collect the view controller when on the main thread, as the behavior off
     // the main thread is unpredictable.  Besides, UI state for off-main-thread computations
     // isn't really relevant anyhow.
-    UIViewController *vc = [UIApplication sharedApplication].keyWindow.rootViewController;
+    
+    UIWindow *keyWindow = [[[UIApplication sharedApplication] delegate] window];
+    
+    UIViewController *vc = keyWindow.rootViewController;
     vc = vc.presentedViewController ?: vc;
     if (vc) {
       currentViewControllerName = [[vc class] description];

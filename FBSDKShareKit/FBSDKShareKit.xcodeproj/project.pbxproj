@@ -1808,6 +1808,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 819043CB1D261A7900B2E437 /* FBSDKShareKit-Dynamic.xcconfig */;
 			buildSettings = {
+				SKIP_INSTALL = NO;
 			};
 			name = Debug;
 		};
@@ -1815,6 +1816,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 819043CB1D261A7900B2E437 /* FBSDKShareKit-Dynamic.xcconfig */;
 			buildSettings = {
+				SKIP_INSTALL = NO;
 			};
 			name = Release;
 		};
@@ -1886,6 +1888,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 819043CE1D261A7900B2E437 /* FBSDKShareKit.xcconfig */;
 			buildSettings = {
+				SKIP_INSTALL = NO;
 			};
 			name = Debug;
 		};
@@ -1893,6 +1896,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 819043CE1D261A7900B2E437 /* FBSDKShareKit.xcconfig */;
 			buildSettings = {
+				SKIP_INSTALL = NO;
 			};
 			name = Release;
 		};

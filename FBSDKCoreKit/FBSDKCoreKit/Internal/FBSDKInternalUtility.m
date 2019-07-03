@@ -486,7 +486,8 @@ static NSMapTable *_transientObjects;
 
 + (UIWindow *)findWindow
 {
-  UIWindow *window = [UIApplication sharedApplication].keyWindow;
+   UIWindow *window = [[[UIApplication sharedApplication] delegate] window];
+
   if (window == nil || window.windowLevel != UIWindowLevelNormal) {
     for (window in [UIApplication sharedApplication].windows) {
       if (window.windowLevel == UIWindowLevelNormal) {
